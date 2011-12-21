@@ -14,7 +14,7 @@ public:
 	};
 	
 	bool can_read() {
-		return data + data_length >= data_ptr;
+		return data + data_length > data_ptr;
 	}
 	
 	uint32_t get_uint32() {
@@ -38,8 +38,13 @@ public:
 	}
 	
 	std::string get_string() {
-		// WARNING: UNSAFE CODE
-		return std::string(data_ptr);
+		char string_buffer[512];
+		//string_buffer[0] = *data_ptr++;
+		for (size_t idx = 0; (*data_ptr != '\0'); data_ptr++, idx++) {
+			string_buffer[idx] = *data_ptr;
+		}
+		data_ptr++;
+		return string_buffer;
 	}
 	
 	~code_buffer() {

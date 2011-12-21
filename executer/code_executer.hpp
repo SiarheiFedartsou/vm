@@ -43,10 +43,11 @@ public:
 					   	0x02,  // ADD_I
 					   	0x05, 0x01, 0x00, 0x00, 0x00, // STORE_IVAR 1
 						0x04, 0x01, 0x00, 0x00, 0x00, // LOAD_IVAR 1
-						0x07, 0x30, 0x31, 0x39, 0x00,
-						0x06 // PRN
+						0x07, 0x48, 0x45, 0x4C, 0x4C, 0x4F, 0x0A, 0x00, // PUSH_SCONST 'HELLO'
+						0x06, 0x03, 0x06, 0x03 // PRN
 					   };
 	//	std::string s(code, 11);
+				//	std::cout << sizeof(code) << std::endl;
 		
 		code_buffer buffer(code, sizeof(code));
 	//	std::istringstream st(s);
@@ -91,8 +92,12 @@ public:
 				break;
 				
 				case POP_I: {
-					delete stack.top();
-					stack.pop();
+					if (!stack.empty()) {
+						delete stack.top();
+						stack.pop();		
+					} else {
+						std::cerr << "WARNING: cannot pop from empty stack" << std::endl;
+					}
 				}
 				break;
 				
@@ -131,15 +136,15 @@ public:
 			
 		//	command = buffer.get_uint8();
 			
-	//		std::cout << (uint64_t)command << std::endl;
+		//	std::cout << "COMMAND " << (uint64_t)command << std::endl;
 			
 			
 		}
 		
-		std::cout << "STACK" << std::endl;
+		std::cout << std::endl << "STACK" << std::endl;
 		
 		if (!stack.empty()) {
-			std::cout << stack.top()->to_string() << std::endl;	
+			std::cout << stack.top()->to_string();	
 		}
 		
 		
