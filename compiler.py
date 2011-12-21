@@ -1,16 +1,36 @@
 import pyparsing
 from pyparsing import *
 
+
+list_constant = nestedExpr('[', ']')
+print list_constant.parseString('[433 345345 345345 x]')
+
+
+
 identifier = Word(alphas)
 operator = Forward()
-function_define_operator = 'def' + identifier('func_name') + Optional(Suppress(':') + identifier('type')) + Suppress('{') + ZeroOrMore(operator) + Suppress('}') + Suppress(';') 
-operator << Word(alphas + ' \t') + Suppress(';')
-source = 'module' + identifier('module_name') + Suppress(';') + ZeroOrMore(Group(function_define_operator))
+function_body = nestedExpr('{', '}')  + Suppress(';') 
+function_argument_list = nestedExpr('(', ')')
+function_define_operator = 'def' + identifier('func_name') + Optional(function_argument_list) +  Optional(Suppress(':') + identifier('type')) + function_body('body'); 
 
-print source.parseString('''
+operator << Word(alphas + ' \t') + Suppress(';')
+
+source = 'module' + identifier('module_name') + Suppress(';') + ZeroOrMore(function_define_operator)
+
+
+f = open('example.tl', 'r')
+s = '\n'.join(f.readlines())
+
+print source.parseString(s)
+
+#print source.parseString(
+'''
 module hello;
 
-def func : string { 
+def func() : string { 
+{
+
+}
 	rtre; 
 	dsfer; 
 	return 				dds;
@@ -21,7 +41,7 @@ def funci {
 	dsfer; 
 };
 '''
-)
+#)
 
 '''
 class EvalConstant(object):

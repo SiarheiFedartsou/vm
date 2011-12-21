@@ -1,0 +1,20 @@
+func 0
+param_ui 0
+push_uiconst 0
+if_uineq 1
+ret_null
+pop
+push_uiconst 1
+if_uineq 9
+ret_listconst [1] ; 9 byte
+pop
+push_uiconst 2
+if_uineq 13
+ret_listconst [1 1]; 13 byte
+new_list 1 [1 1]; 17 byte
+
+pop
+push_uiconst 2
+if_uinge XXXXX
+
+end_func 0
