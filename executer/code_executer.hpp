@@ -5,6 +5,8 @@
 #include <map>
 #include "object.hpp"
 #include "types/integer_variable.hpp"
+#include "types/string_variable.hpp"
+
 #include <iostream>
 #include <sstream>
 #include <exception>
@@ -31,7 +33,7 @@ const uint8_t STORE_IVAR = 0x05;
 
 const uint8_t PRN = 0x06;
 
-
+const uint8_t PUSH_SCONST = 0x07;
 
 class code_executer {
 public:
@@ -41,6 +43,7 @@ public:
 					   	0x02,  // ADD_I
 					   	0x05, 0x01, 0x00, 0x00, 0x00, // STORE_IVAR 1
 						0x04, 0x01, 0x00, 0x00, 0x00, // LOAD_IVAR 1
+						0x07, 0x30, 0x31, 0x39, 0x00,
 						0x06 // PRN
 					   };
 	//	std::string s(code, 11);
@@ -113,7 +116,18 @@ public:
 					std::cout << stack.top()->to_string();
 				}
 				break;
+				
+				case PUSH_SCONST: {
+					std::string op = buffer.get_string();
+	
+					
+					string_variable* v = new string_variable(op);
+					stack.push(v);
+				}
+				break;
 			};
+			
+			
 			
 		//	command = buffer.get_uint8();
 			

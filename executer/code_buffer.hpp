@@ -1,6 +1,8 @@
 #ifndef CODE_BUFFER_HPP
 #define CODE_BUFFER_HPP
 
+#include <string>
+#include <iostream>
 class code_buffer {
 public:
 	code_buffer(char* _data, size_t length) {
@@ -35,6 +37,10 @@ public:
 		return result;
 	}
 	
+	std::string get_string() {
+		// WARNING: UNSAFE CODE
+		return std::string(data_ptr);
+	}
 	
 	~code_buffer() {
 		delete[] data;
