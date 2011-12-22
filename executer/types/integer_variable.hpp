@@ -3,10 +3,12 @@
 
 #include "../variable.hpp"
 
-class integer_variable : public variable {
+#include "arithmetic_variable.hpp"
+
+class integer_variable : public arithmetic_variable<int32_t> {
 public:
 	
-	integer_variable(int64_t _value) : value(_value) {};
+	integer_variable(int32_t _value) : arithmetic_variable<int32_t>(_value) {};
 	
 	std::string to_string() {
 		char buffer[1 << 4];
@@ -18,45 +20,10 @@ public:
 		return INTEGER;
 	};
 	
-	bool is_comparable(variable* v) {
-		switch (v->get_type()) {
-			case UINTEGER:
-			case INTEGER:
-			case UFLOAT:
-			case FLOAT:
-			case BYTE:
-			return true;
-			default:
-			return false;
-		}
-	}
 	
-	bool is_addable(variable* v) {
-		switch (v->get_type()) {
-			case UINTEGER:
-			case INTEGER:
-			case UFLOAT:
-			case FLOAT:
-			case BYTE:
-			return true;
-			default:
-			return false;
-		}	
+	virtual bool is_arithmetic() {
+		return true;
 	}
-	
-	virtual variable* plus(variable* op) {
-		if (op->get_type() == INTEGER) {
-			return new integer_variable(((integer_variable*)op)->value + this->value);
-		} else {
-			return new integer_variable(0);
-		}
-	}
-	
-	virtual ~integer_variable() {
-		
-	}
-private:
-	int32_t value;
 };
 
 #endif

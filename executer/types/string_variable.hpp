@@ -15,14 +15,7 @@ public:
 	VARIABLE_TYPE get_type() {
 		return STRING;
 	};
-	
-	bool is_comparable(variable* v) {
-		return false;
-	}
-	
-	bool is_addable(variable* v) {
-		return false;
-	}
+
 	
 	
 	virtual ~string_variable() {

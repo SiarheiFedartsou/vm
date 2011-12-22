@@ -17,6 +17,12 @@ public:
 		return data + data_length > data_ptr;
 	}
 	
+	uint8_t get_uint8() {
+		uint8_t result = *(uint8_t*)data_ptr;
+		data_ptr += sizeof(uint8_t);
+		return result;
+	}
+	
 	uint32_t get_uint32() {
 		uint32_t result = *(uint32_t*)data_ptr;
 		data_ptr += sizeof(uint32_t);
@@ -31,9 +37,9 @@ public:
 	
 	
 	
-	uint8_t get_uint8() {
-		uint8_t result = *(uint8_t*)data_ptr;
-		data_ptr += sizeof(uint8_t);
+	double get_double() {
+		double result = *(double*)data_ptr;
+		data_ptr += sizeof(double);
 		return result;
 	}
 	
